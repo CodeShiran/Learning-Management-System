@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2025 at 03:52 PM
+-- Generation Time: Jan 03, 2025 at 06:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,7 @@ CREATE TABLE `course` (
   `Months` int(11) NOT NULL,
   `fees` int(11) NOT NULL,
   `teacherId` varchar(100) NOT NULL,
+  `teacherName` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -59,12 +60,8 @@ CREATE TABLE `course` (
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`id`, `name`, `Months`, `fees`, `teacherId`, `date`) VALUES
-('C001', 'Introduction to Programming', 3, 200, 'T001', '2025-01-01 08:08:37'),
-('C002', 'Web Development Fundamentals', 6, 450, 'T003', '2025-01-01 08:08:37'),
-('C003', 'Advanced Java Programming', 6, 600, 'T005', '2025-01-01 08:08:37'),
-('C004', 'Data Science with Python', 6, 1200, 'T007', '2025-01-01 08:08:37'),
-('C005', 'Machine Learning and AI', 12, 1500, 'T010', '2025-01-01 08:08:37');
+INSERT INTO `course` (`id`, `name`, `Months`, `fees`, `teacherId`, `teacherName`, `date`) VALUES
+('C001', 'sfas', 3, 4562, 'T002', 'John Doe', '2025-01-03 17:35:38');
 
 -- --------------------------------------------------------
 
@@ -93,17 +90,11 @@ INSERT INTO `coursereg` (`courseId`, `studentId`) VALUES
 
 CREATE TABLE `marks` (
   `studentId` varchar(100) NOT NULL,
+  `studentname` varchar(100) NOT NULL,
   `courseId` varchar(100) NOT NULL,
+  `coursename` varchar(100) NOT NULL,
   `marks` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `marks`
---
-
-INSERT INTO `marks` (`studentId`, `courseId`, `marks`) VALUES
-('S001', 'C001', 56),
-('S002', 'C001', 34);
 
 -- --------------------------------------------------------
 
@@ -182,7 +173,7 @@ INSERT INTO `teacher` (`id`, `fName`, `lName`, `userName`, `email`, `tel`, `pass
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `teacherId` (`teacherId`);
+  ADD KEY `course_ibfk_1` (`teacherId`);
 
 --
 -- Indexes for table `coursereg`
@@ -194,8 +185,8 @@ ALTER TABLE `coursereg`
 -- Indexes for table `marks`
 --
 ALTER TABLE `marks`
-  ADD KEY `studentId` (`studentId`),
-  ADD KEY `courseId` (`courseId`);
+  ADD KEY `marks_ibfk_1` (`studentId`),
+  ADD KEY `marks_ibfk_2` (`courseId`);
 
 --
 -- Indexes for table `student`
@@ -217,14 +208,14 @@ ALTER TABLE `teacher`
 -- Constraints for table `course`
 --
 ALTER TABLE `course`
-  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacherId`) REFERENCES `teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacherId`) REFERENCES `teacher` (`id`);
 
 --
 -- Constraints for table `marks`
 --
 ALTER TABLE `marks`
-  ADD CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`studentId`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `marks_ibfk_2` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`studentId`) REFERENCES `student` (`id`),
+  ADD CONSTRAINT `marks_ibfk_2` FOREIGN KEY (`courseId`) REFERENCES `course` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
