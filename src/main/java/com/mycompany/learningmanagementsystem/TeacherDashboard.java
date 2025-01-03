@@ -25,11 +25,50 @@ public class TeacherDashboard extends javax.swing.JFrame {
         populateCourseComboBox();
         FetchMarksData();
         DisplayTotalCount();
+        FetchRecentlyUpdatedCourses();
     }
     
     Connection connection;
     PreparedStatement pst;
     ResultSet rs;
+    
+    public void FetchRecentlyUpdatedCourses(){
+         try {
+        
+        connection = Database.connectiondb();
+
+        
+        String sql = "SELECT id, name, fees, months FROM course WHERE date >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+        pst = connection.prepareStatement(sql);
+        rs = pst.executeQuery();
+
+       
+        DefaultTableModel model = (DefaultTableModel) TeacherDashboardTable.getModel();
+        model.setRowCount(0); 
+
+        
+        while (rs.next()) {
+            String courseId = rs.getString("id");
+            String courseName = rs.getString("name");
+            double fees = rs.getDouble("fees");
+            int months = rs.getInt("months");
+
+            
+            model.addRow(new Object[]{courseId, courseName, fees, months});
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (connection != null) connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    }
     
     private void DisplayTotalCount(){
         try {
@@ -43,14 +82,14 @@ public class TeacherDashboard extends javax.swing.JFrame {
             totalStudent_txt.setText(rs.getString(1));
         }
 
-        // Query to get the total number of teachers
+        
         pst = connection.prepareStatement("SELECT COUNT(*) FROM teacher");
         rs = pst.executeQuery();
         if (rs.next()) {
             totalTeachers_txt.setText(rs.getString(1)); 
         }
 
-        // Query to get the total number of courses
+        
         pst = connection.prepareStatement("SELECT COUNT(*) FROM course");
         rs = pst.executeQuery();
         if (rs.next()) {
@@ -78,7 +117,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(MarksData data:mark){
-            Object[] rowData={data.getStudentId(), data.getCourseId(), data.getMarks()};
+            Object[] rowData={data.getStudentId(), data.getStudentName(), data.getCourseId(), data.getCourseName(), data.getMarks()};
             df.addRow(rowData);
         }
     }
@@ -93,12 +132,14 @@ public class TeacherDashboard extends javax.swing.JFrame {
             
             while(rs.next()){
                 String studentId=rs.getString("studentId");
+                String studentName=rs.getString("studentname");
                 String courseId=rs.getString("courseId");
+                String courseName=rs.getString("courseName");
                 int marks=rs.getInt("marks");
                 
                 
                 
-                mark.add(new MarksData(studentId,courseId,marks));
+                mark.add(new MarksData(studentId,studentName,courseId,courseName,marks));
             }
         }
         catch(Exception ex){
@@ -147,7 +188,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(CourseData data:course){
-            Object[] rowData={data.getId(), data.getName(), data.getMonth(), data.getFees(), data.getTeacherId(), data.getDate()};
+            Object[] rowData={data.getId(), data.getName(), data.getMonth(), data.getFees(), data.getTeacherId(), data.getTeacherName(), data.getDate()};
             df.addRow(rowData);
         }
     }
@@ -168,10 +209,11 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 int months=rs.getInt("months");
                 String fees=rs.getString("fees");
                 String teacherId=rs.getString("teacherId");
+                String teacherName=rs.getString("teacherName");
                 Date date = rs.getDate("date");
                 
                 
-                course.add(new CourseData(id,name,months,fees,teacherId,date));
+                course.add(new CourseData(id,name,months,fees,teacherId,teacherName,date));
             }
         }
         catch(Exception ex){
@@ -210,7 +252,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
         totalCourses_txt = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TeacherDashboardTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -223,7 +265,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
         jPanel14 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         studentMarksTable = new javax.swing.JTable();
-        jPanel15 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         studentId_cmb = new javax.swing.JComboBox<>();
@@ -232,6 +273,12 @@ public class TeacherDashboard extends javax.swing.JFrame {
         marks_txt = new javax.swing.JTextField();
         courseId_cmb = new javax.swing.JComboBox<>();
         add_btn = new com.mycompany.learningmanagementsystem.Button();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        studentName_txt = new javax.swing.JTextField();
+        courseName_txt = new javax.swing.JTextField();
+        studentSearch_btn = new com.mycompany.learningmanagementsystem.Button();
+        courseSearch_btn = new com.mycompany.learningmanagementsystem.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -474,7 +521,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
 
         jPanel13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 1, true));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TeacherDashboardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -482,10 +529,10 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Course Id", "Title", "Fees", "Duration(Months)"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TeacherDashboardTable);
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -615,13 +662,13 @@ public class TeacherDashboard extends javax.swing.JFrame {
 
         studentMarksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Student Id", "Course Id", "Marks"
+                "Student Id", "Student Name", "Course Id", "Course Name", "Marks"
             }
         ));
         jScrollPane3.setViewportView(studentMarksTable);
@@ -632,7 +679,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 857, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
@@ -643,17 +690,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 261, Short.MAX_VALUE)
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Marks");
 
@@ -661,7 +697,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
         jLabel5.setText("Student Id");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Course Id");
+        jLabel7.setText("Course Name");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Marks");
@@ -687,6 +723,42 @@ public class TeacherDashboard extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setText("Student Name");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel13.setText("Course Id");
+
+        studentSearch_btn.setBorder(null);
+        studentSearch_btn.setText("Search");
+        studentSearch_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        studentSearch_btn.setBorderPainted(false);
+        studentSearch_btn.setColor(new java.awt.Color(255, 106, 106));
+        studentSearch_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        studentSearch_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        studentSearch_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        studentSearch_btn.setRadius(15);
+        studentSearch_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentSearch_btnActionPerformed(evt);
+            }
+        });
+
+        courseSearch_btn.setBorder(null);
+        courseSearch_btn.setText("Search");
+        courseSearch_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        courseSearch_btn.setBorderPainted(false);
+        courseSearch_btn.setColor(new java.awt.Color(255, 106, 106));
+        courseSearch_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        courseSearch_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        courseSearch_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        courseSearch_btn.setRadius(15);
+        courseSearch_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseSearch_btnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -695,27 +767,39 @@ public class TeacherDashboard extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(marks_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(88, 88, 88)
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(238, Short.MAX_VALUE))
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(141, 141, 141)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(marks_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(courseName_txt))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(studentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -724,28 +808,37 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(studentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(marks_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(36, 36, 36)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(courseName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(marks_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         jTabbedPane1.addTab("tab3", jPanel4);
@@ -776,15 +869,18 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
         try {
             connection = Database.connectiondb();
-            pst = connection.prepareStatement("INSERT INTO marks (studentId, courseId, marks) VALUES (?, ?, ?)");
+            pst = connection.prepareStatement("INSERT INTO marks (studentId, studentname, courseId, coursename, marks) VALUES (?, ?, ?, ?, ?)");
 
             pst.setString(1, studentId_cmb.getSelectedItem().toString());
-            pst.setString(2, courseId_cmb.getSelectedItem().toString());
-            pst.setString(3, marks_txt.getText());
+            pst.setString(2,studentName_txt.getText());
+            pst.setString(3, courseId_cmb.getSelectedItem().toString());
+            pst.setString(4,courseName_txt.getText());
+            pst.setString(5, marks_txt.getText());
 
             int rowsInserted = pst.executeUpdate();
             if (rowsInserted > 0) {
                 JOptionPane.showMessageDialog(null, "Marks Updated successfully!");
+                FetchMarksData();
                 
 
             }
@@ -819,6 +915,84 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private void overview_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overview_btn2ActionPerformed
          jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_overview_btn2ActionPerformed
+
+    private void studentSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearch_btnActionPerformed
+        try {
+        
+        String selectedStudentId = studentId_cmb.getSelectedItem().toString();
+
+        connection = Database.connectiondb();
+        
+        pst = connection.prepareStatement("SELECT fname, lname FROM student WHERE id = ?");
+        pst.setString(1, selectedStudentId);
+
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            
+            String firstName = rs.getString("fName");
+            String lastName = rs.getString("lName");
+
+            
+            String fullName = firstName + " " + lastName;
+
+            
+            studentName_txt.setText(fullName);
+        } else {
+            
+            studentName_txt.setText("");
+            JOptionPane.showMessageDialog(null, "No student found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching student data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (connection != null) connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    }//GEN-LAST:event_studentSearch_btnActionPerformed
+
+    private void courseSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseSearch_btnActionPerformed
+         try {
+        
+        String selectedCourseId = courseId_cmb.getSelectedItem().toString();
+
+        connection = Database.connectiondb();
+        
+        pst = connection.prepareStatement("SELECT name FROM course WHERE id = ?");
+        pst.setString(1, selectedCourseId);
+
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            
+            String courseName = rs.getString("name");
+
+           
+            courseName_txt.setText(courseName);
+        } else {
+            
+            courseName_txt.setText("");
+            JOptionPane.showMessageDialog(null, "No course found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching course data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (connection != null) connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    }//GEN-LAST:event_courseSearch_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -856,12 +1030,17 @@ public class TeacherDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TeacherDashboardTable;
     private com.mycompany.learningmanagementsystem.Button add_btn;
     private javax.swing.JTable assignedCoursesTable;
     private javax.swing.JComboBox<String> courseId_cmb;
+    private javax.swing.JTextField courseName_txt;
+    private com.mycompany.learningmanagementsystem.Button courseSearch_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -874,7 +1053,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -887,7 +1065,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label1;
     private javax.swing.JTextField marks_txt;
     private com.mycompany.learningmanagementsystem.Button overview_btn;
@@ -895,6 +1072,8 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private com.mycompany.learningmanagementsystem.Button overview_btn2;
     private javax.swing.JComboBox<String> studentId_cmb;
     private javax.swing.JTable studentMarksTable;
+    private javax.swing.JTextField studentName_txt;
+    private com.mycompany.learningmanagementsystem.Button studentSearch_btn;
     private javax.swing.JLabel totalCourses_txt;
     private javax.swing.JLabel totalStudent_txt;
     private javax.swing.JLabel totalTeachers_txt;

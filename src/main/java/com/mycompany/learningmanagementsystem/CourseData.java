@@ -16,14 +16,16 @@ public class CourseData {
     private int months;
     private String fees;
     private String teacherId;
+    private String teacherName;
     private Date date;
     
-    public CourseData(String id,String name,int months,String fees,String teacherId,Date date){
+    public CourseData(String id,String name,int months,String fees,String teacherId,String teacherName,Date date){
         this.id=id;
         this.name=name;
         this.months=months;
         this.fees=fees;
         this.teacherId=teacherId;
+        this.teacherName=teacherName;
         this.date=date;
     }
     public String getId(){
@@ -40,6 +42,9 @@ public class CourseData {
     }
     public String getTeacherId(){
         return teacherId;
+    }
+    public String getTeacherName(){
+        return teacherName;
     }
     public Date getDate(){
         return date;

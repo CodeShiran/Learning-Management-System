@@ -155,7 +155,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(CourseData data:course){
-            Object[] rowData={data.getId(), data.getName(), data.getMonth(), data.getFees(), data.getTeacherId(), data.getDate()};
+            Object[] rowData={data.getId(), data.getName(), data.getMonth(), data.getFees(), data.getTeacherId(), data.getTeacherName(), data.getDate()};
             df.addRow(rowData);
         }
     }
@@ -176,10 +176,11 @@ public class AdminDashboard extends javax.swing.JFrame {
                 int months=rs.getInt("months");
                 String fees=rs.getString("fees");
                 String teacherId=rs.getString("teacherId");
+                String teacherName=rs.getString("teacherName");
                 Date date = rs.getDate("date");
                 
                 
-                course.add(new CourseData(id,name,months,fees,teacherId,date));
+                course.add(new CourseData(id,name,months,fees,teacherId,teacherName,date));
             }
         }
         catch(Exception ex){
@@ -405,6 +406,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         cmonths_cmb = new javax.swing.JComboBox<>();
         cteacherId_cmb = new javax.swing.JComboBox<>();
+        jLabel30 = new javax.swing.JLabel();
+        teacherName_txt = new javax.swing.JTextField();
+        searchTeacher_btn = new com.mycompany.learningmanagementsystem.Button();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         courseDataTable = new javax.swing.JTable();
@@ -1331,6 +1335,26 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         cmonths_cmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "6", "12" }));
 
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel30.setText("Teacher Name");
+
+        teacherName_txt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        searchTeacher_btn.setBorder(null);
+        searchTeacher_btn.setText("Search");
+        searchTeacher_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        searchTeacher_btn.setBorderPainted(false);
+        searchTeacher_btn.setColor(new java.awt.Color(255, 106, 106));
+        searchTeacher_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        searchTeacher_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        searchTeacher_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        searchTeacher_btn.setRadius(15);
+        searchTeacher_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTeacher_btnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
@@ -1341,7 +1365,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(cfees_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cfees_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
@@ -1357,10 +1382,18 @@ public class AdminDashboard extends javax.swing.JFrame {
                                     .addComponent(cname_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                                     .addComponent(cmonths_cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(60, 60, 60)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(104, Short.MAX_VALUE))
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(teacherName_txt)))))
+                .addGap(18, 18, 18)
+                .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1370,11 +1403,15 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addComponent(jLabel24)
                     .addComponent(cid_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29)
-                    .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(cname_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cname_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel30)
+                        .addComponent(teacherName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
@@ -1388,13 +1425,13 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         courseDataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Name", "Months", "Fees", "Teacher Id", "Date Created"
+                "Id", "Name", "Months", "Fees", "Teacher Id", "Teacher Name", "Date Created"
             }
         ));
         courseDataTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2118,6 +2155,43 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_courseReport_btnActionPerformed
 
+    private void searchTeacher_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTeacher_btnActionPerformed
+       try {
+        
+        String selectedTeacherId = cteacherId_cmb.getSelectedItem().toString();
+
+        connection = Database.connectiondb();
+        
+        pst = connection.prepareStatement("SELECT CONCAT(fName, ' ', lName) AS fullName FROM teacher WHERE id = ?");
+        pst.setString(1, selectedTeacherId); 
+
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            
+            String fullName = rs.getString("fullName");
+
+            
+            teacherName_txt.setText(fullName);
+        } else {
+            
+            teacherName_txt.setText("");
+            JOptionPane.showMessageDialog(null, "No teacher found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching teacher data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (connection != null) connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    }//GEN-LAST:event_searchTeacher_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2195,6 +2269,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2233,6 +2308,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField sage_txt;
     private javax.swing.JTextField satuserName_txt;
     private com.mycompany.learningmanagementsystem.Button sdelete_btn;
+    private com.mycompany.learningmanagementsystem.Button searchTeacher_btn;
     private javax.swing.JTextField semail_txt;
     private javax.swing.JTextField sfName_txt;
     private javax.swing.JComboBox<String> sgender_cmb;
@@ -2246,6 +2322,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private com.mycompany.learningmanagementsystem.Button student_btn;
     private com.mycompany.learningmanagementsystem.Button supdate_btn;
     private javax.swing.JTable teacherDataTable;
+    private javax.swing.JTextField teacherName_txt;
     private com.mycompany.learningmanagementsystem.Button teacherReport_btn;
     private com.mycompany.learningmanagementsystem.Button teacher_btn;
     private javax.swing.JTextField tel_txt;

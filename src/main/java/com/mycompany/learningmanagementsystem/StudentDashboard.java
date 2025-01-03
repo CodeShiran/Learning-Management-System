@@ -145,7 +145,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(MarksData data:mark){
-            Object[] rowData={data.getStudentId(), data.getCourseId(), data.getMarks()};
+            Object[] rowData={data.getStudentId(), data.getStudentName(), data.getCourseId(), data.getCourseName(), data.getMarks()};
             df.addRow(rowData);
         }
     }
@@ -160,12 +160,14 @@ public class StudentDashboard extends javax.swing.JFrame {
             
             while(rs.next()){
                 String studentId=rs.getString("studentId");
+                String studentName=rs.getString("studentname");
                 String courseId=rs.getString("courseId");
+                String courseName=rs.getString("coursename");
                 int marks=rs.getInt("marks");
                 
                 
                 
-                mark.add(new MarksData(studentId,courseId,marks));
+                mark.add(new MarksData(studentId,studentName,courseId,courseName,marks));
             }
         }
         catch(Exception ex){
@@ -578,7 +580,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Course Id", "Title", "Months", "Fees"
+                "Course Id", "Title", "Fees", "Duration(Months)"
             }
         ));
         jScrollPane1.setViewportView(recentlyUpdatedCoursesTable);
@@ -756,13 +758,13 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         sStudentMarksViewTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Student Id", "Course Id", "Marks"
+                "Student Id", "Student Name", "Course Id", "Course Name", "Marks"
             }
         ));
         jScrollPane3.setViewportView(sStudentMarksViewTable);
