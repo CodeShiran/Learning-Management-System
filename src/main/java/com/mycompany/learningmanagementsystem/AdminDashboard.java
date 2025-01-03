@@ -38,12 +38,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         populateTeacherComboBox();
         ScaleImage();
         FetchRecentlyAddedStudents();
+
        
         //populateTeacherTextBox();
     }
     Connection connection;
     PreparedStatement pst;
     ResultSet rs;
+    
+    
+    
     
     
     private void FetchRecentlyAddedStudents(){
@@ -397,7 +401,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        cid_txt = new javax.swing.JTextField();
         cname_txt = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -409,6 +412,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         teacherName_txt = new javax.swing.JTextField();
         searchTeacher_btn = new com.mycompany.learningmanagementsystem.Button();
+        ccourseId_txt = new javax.swing.JTextField();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         courseDataTable = new javax.swing.JTable();
@@ -1315,8 +1319,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel24.setText("Course Id");
 
-        cid_txt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         cname_txt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1355,42 +1357,39 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
+        ccourseId_txt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(cfees_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(cfees_txt))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(cid_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(40, 40, 40)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cname_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(cmonths_cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(60, 60, 60)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(teacherName_txt)))))
+                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cname_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                            .addComponent(cmonths_cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ccourseId_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(teacherName_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1401,10 +1400,10 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(cid_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29)
                     .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ccourseId_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
@@ -1935,33 +1934,34 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_course_btnActionPerformed
 
     private void cadd_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadd_btnActionPerformed
-        try {
-       
+       try {
         connection = Database.connectiondb();
 
-       
-        String sql = "INSERT INTO course (id, name, months, fees, teacherId) VALUES (?, ?, ?, ?, ?)";
+        
+        String sql = "INSERT INTO course (id, name, months, fees, teacherId, teacherName) VALUES (?, ?, ?, ?, ?, ?)";
         pst = connection.prepareStatement(sql);
 
-      
-        pst.setString(1, cid_txt.getText().trim());
-        pst.setString(2, cname_txt.getText().trim()); 
+       
+        pst.setString(1, ccourseId_txt.getText().trim());
+        pst.setString(2, cname_txt.getText().trim());
         pst.setInt(3, Integer.parseInt(cmonths_cmb.getSelectedItem().toString()));
-        pst.setDouble(4, Double.parseDouble(cfees_txt.getText().trim())); 
-        pst.setString(5, cteacherId_cmb.getSelectedItem().toString()); 
-        pst.setDate(6, new java.sql.Date(System.currentTimeMillis()));
-        
+        pst.setDouble(4, Double.parseDouble(cfees_txt.getText().trim()));
+        pst.setString(5, cteacherId_cmb.getSelectedItem().toString());
+        pst.setString(6, teacherName_txt.getText().trim());
+
         int rowsInserted = pst.executeUpdate();
         if (rowsInserted > 0) {
             JOptionPane.showMessageDialog(null, "Course added successfully!");
+
             
             FetchCourseData(); 
             DisplayTotalCount();
-            cid_txt.setText("");
+            ccourseId_txt.setText("");
             cname_txt.setText("");
             cfees_txt.setText("");
             cmonths_cmb.setSelectedIndex(0);
             cteacherId_cmb.setSelectedIndex(0); 
+            teacherName_txt.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "Failed to add course.", "Database Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1971,7 +1971,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error adding course: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
     } finally {
-        
         try {
             if (pst != null) pst.close();
             if (connection != null) connection.close();
@@ -1987,15 +1986,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         connection = Database.connectiondb();
 
         
-        String sql = "UPDATE course SET name = ?, months = ?, fees = ?, teacherId = ? WHERE id = ?";
+        String sql = "UPDATE course SET name = ?, months = ?, fees = ?, teacherId = ? teacherName=? WHERE id = ?";
         pst = connection.prepareStatement(sql);
 
        
         pst.setString(1, cname_txt.getText().trim()); 
         pst.setInt(2, Integer.parseInt(cmonths_cmb.getSelectedItem().toString())); 
         pst.setDouble(3, Double.parseDouble(cfees_txt.getText().trim())); 
-        pst.setString(4, cteacherId_cmb.getSelectedItem().toString()); 
-        pst.setString(5, cid_txt.getText().trim()); 
+        pst.setString(4, teacherName_txt.getText().trim()); 
+        pst.setString(5, ccourseId_txt.getText()); 
+        
 
        
         int rowsUpdated = pst.executeUpdate();
@@ -2004,7 +2004,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             
             FetchCourseData(); 
             DisplayTotalCount();
-            cid_txt.setText("");
+            ccourseId_txt.setText("");
             cname_txt.setText("");
             cfees_txt.setText("");
             cmonths_cmb.setSelectedIndex(0);
@@ -2031,7 +2031,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void cdelete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdelete_btnActionPerformed
          try {
         
-        if (cid_txt.getText().trim().isEmpty()) {
+        if (ccourseId_txt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter or select a Course ID to delete.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -2052,7 +2052,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         pst = connection.prepareStatement(sql);
 
        
-        pst.setString(1, cid_txt.getText().trim());
+        pst.setString(1, ccourseId_txt.getText());
 
        
         int rowsDeleted = pst.executeUpdate();
@@ -2061,7 +2061,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             
             FetchCourseData(); 
             DisplayTotalCount();
-            cid_txt.setText("");
+            ccourseId_txt.setText("");
             cname_txt.setText("");
             cfees_txt.setText("");
             cmonths_cmb.setSelectedIndex(0);
@@ -2084,7 +2084,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_cdelete_btnActionPerformed
 
     private void creset_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creset_btnActionPerformed
-        cid_txt.setText("");
+        ccourseId_txt.setText("");
         cname_txt.setText("");
         cfees_txt.setText("");
         cmonths_cmb.setSelectedIndex(0);
@@ -2096,11 +2096,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) courseDataTable.getModel(); 
 
         
-        cid_txt.setText(model.getValueAt(selectedRow, 0).toString());
-        cname_txt.setText(model.getValueAt(selectedRow, 1).toString());
-        cmonths_cmb.setSelectedItem(model.getValueAt(selectedRow, 2).toString());
-        cfees_txt.setText(model.getValueAt(selectedRow, 3).toString());
-        cteacherId_cmb.setSelectedItem(model.getValueAt(selectedRow, 4).toString());
+        ccourseId_txt.setText(model.getValueAt(selectedRow, 1).toString());
+        cname_txt.setText(model.getValueAt(selectedRow, 2).toString());
+        cmonths_cmb.setSelectedItem(model.getValueAt(selectedRow, 3).toString());
+        cfees_txt.setText(model.getValueAt(selectedRow, 4).toString());
+        cteacherId_cmb.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
+        teacherName_txt.setText(model.getValueAt(selectedRow, 6).toString());
         
     }//GEN-LAST:event_courseDataTableMouseClicked
 
@@ -2148,7 +2149,7 @@ public class AdminDashboard extends javax.swing.JFrame {
           JasperPrint jp=JasperFillManager.fillReport(jr,null,connection);
           JasperViewer viewer = new JasperViewer(jp, false);
           viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // Close only the report window
-          viewer.setVisible(true); // Show the report
+          viewer.setVisible(true);
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -2231,9 +2232,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private com.mycompany.learningmanagementsystem.Button add_btn;
     private javax.swing.JTextField atuserName_txt;
     private com.mycompany.learningmanagementsystem.Button cadd_btn;
+    private javax.swing.JTextField ccourseId_txt;
     private com.mycompany.learningmanagementsystem.Button cdelete_btn;
     private javax.swing.JTextField cfees_txt;
-    private javax.swing.JTextField cid_txt;
     private javax.swing.JComboBox<String> cmonths_cmb;
     private javax.swing.JTextField cname_txt;
     private javax.swing.JTable courseDataTable;
