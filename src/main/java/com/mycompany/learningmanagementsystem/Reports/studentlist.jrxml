@@ -1,0 +1,98 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="studentlist" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="90ac1e15-b341-491b-9070-3359ddceca5b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="lms data"/>
+	<query language="SQL"><![CDATA[SELECT * FROM student]]></query>
+	<field name="id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="fName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fName"/>
+		<property name="com.jaspersoft.studio.field.label" value="fName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="lName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lName"/>
+		<property name="com.jaspersoft.studio.field.label" value="lName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="userName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="userName"/>
+		<property name="com.jaspersoft.studio.field.label" value="userName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="gender"/>
+		<property name="com.jaspersoft.studio.field.label" value="gender"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="age" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="age"/>
+		<property name="com.jaspersoft.studio.field.label" value="age"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="password" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="password"/>
+		<property name="com.jaspersoft.studio.field.label" value="password"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<field name="date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="date"/>
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="student"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="8a6b2883-7989-44e6-a22b-ac500ea78b3b" x="96" y="5" width="363" height="52" fontSize="25.0" bold="true">
+			<text><![CDATA[Learning Management System]]></text>
+		</element>
+		<element kind="staticText" uuid="d8b29e92-2291-4ac2-9a4f-997d37864d7a" x="212" y="35" width="130" height="30" fontSize="22.0" bold="true">
+			<text><![CDATA[Student List]]></text>
+		</element>
+	</title>
+	<pageHeader height="43" splitType="Stretch">
+		<element kind="textField" uuid="07448541-6799-4789-8dd8-5b27de4b8a86" x="460" y="10" width="95" height="30" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="8c05d7da-a282-470c-af9b-d1c75133f0be" x="35" y="1" width="79" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Student Id]]></text>
+		</element>
+		<element kind="staticText" uuid="a4f13393-f117-4248-a953-2f16b73da732" x="195" y="1" width="100" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Student Name]]></text>
+		</element>
+		<element kind="staticText" uuid="9fd3aabb-a5ff-4711-9f02-6154febf1252" x="342" y="1" width="100" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Gender]]></text>
+		</element>
+		<element kind="staticText" uuid="86cdf560-2d6c-45e0-949d-43627e8d0428" x="483" y="0" width="82" height="30" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Age]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<element kind="textField" uuid="ce9200bd-2ccf-4576-8a65-ba37450d693b" x="43" y="3" width="62" height="30" hTextAlign="Center">
+				<expression><![CDATA[$F{id}]]></expression>
+			</element>
+			<element kind="textField" uuid="cf8c8b4f-88e7-439f-8e60-4ee43a503c9f" x="205" y="5" width="79" height="30" hTextAlign="Center">
+				<expression><![CDATA[$F{fName}+""+$F{lName}]]></expression>
+			</element>
+			<element kind="textField" uuid="1c31d882-8e55-4be4-bb7d-73ce7d1c224d" x="353" y="5" width="79" height="30" hTextAlign="Center">
+				<expression><![CDATA[$F{gender}]]></expression>
+			</element>
+			<element kind="textField" uuid="68f6e448-ac33-4061-ac38-3df792217a0f" x="485" y="5" width="79" height="30" hTextAlign="Center">
+				<expression><![CDATA[$F{age}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
