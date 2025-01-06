@@ -4,6 +4,7 @@
  */
 package com.mycompany.learningmanagementsystem;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,10 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,11 +37,123 @@ public class StudentDashboard extends javax.swing.JFrame {
         FetchRecentlyUpdatedCourses();
         DisplayTotalCount();
         ScaleImage();
+        RecentlyAddedCoursesTableDesign();
+        CourseSelectionTableDesign();
+        ExamMarksTableDesign();
+        PanelBoxDesign();
     }
     
     Connection connection;
     PreparedStatement pst;
     ResultSet rs;
+    
+    
+    private void PanelBoxDesign(){
+        jPanel8.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel11.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel12.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel7.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +                  
+            "borderColor: #1366D9;" +      
+            "borderWidth: 2;");            
+    }
+    
+    private void ExamMarksTableDesign(){
+        jPanel9.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         sStudentMarksViewTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         sStudentMarksViewTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane3.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < sStudentMarksViewTable.getColumnCount(); i++) {
+        sStudentMarksViewTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+         
+         
+    }
+    
+    private void CourseSelectionTableDesign(){
+        jPanel6.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         registeredCourseDataTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         registeredCourseDataTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane2.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < registeredCourseDataTable.getColumnCount(); i++) {
+        registeredCourseDataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
+    
+    private void RecentlyAddedCoursesTableDesign(){
+        jPanel13.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         recentlyUpdatedCoursesTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         recentlyUpdatedCoursesTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+         
+         
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < recentlyUpdatedCoursesTable.getColumnCount(); i++) {
+        recentlyUpdatedCoursesTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+         
+    }
     
     public void ScaleImage(){
         ImageIcon icon=new ImageIcon("D:\\nibm project\\LearningManagementSystem\\src\\main\\java\\com\\mycompany\\learningmanagementsystem\\Images\\file-3.png");
@@ -416,16 +532,20 @@ public class StudentDashboard extends javax.swing.JFrame {
                         .addGap(5, 5, 5)
                         .addComponent(ssignout_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(overview_btn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .addComponent(student_btn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(overview_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                .addComponent(teacher_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                .addComponent(student_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                .addComponent(teacher_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addComponent(overview_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(student_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -436,16 +556,12 @@ public class StudentDashboard extends javax.swing.JFrame {
                         .addGap(44, 44, 44))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(219, 219, 219)
-                    .addComponent(overview_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
+                    .addGap(285, 285, 285)
                     .addComponent(teacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(student_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(286, Short.MAX_VALUE)))
+                    .addContainerGap(352, Short.MAX_VALUE)))
         );
 
-        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 2, true));
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel8.setBackground(new java.awt.Color(96, 162, 252));
         jPanel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
@@ -553,9 +669,9 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
+                .addGap(133, 133, 133)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
@@ -569,8 +685,6 @@ public class StudentDashboard extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-
-        jPanel13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 1, true));
 
         recentlyUpdatedCoursesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -595,7 +709,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -616,10 +730,10 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(113, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         jPanel2Layout.setVerticalGroup(

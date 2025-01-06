@@ -4,6 +4,7 @@
  */
 package com.mycompany.learningmanagementsystem;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -38,16 +42,155 @@ public class AdminDashboard extends javax.swing.JFrame {
         populateTeacherComboBox();
         ScaleImage();
         FetchRecentlyAddedStudents();
-
-       
+        TeacherTableDesign();
+        RecentlyAddedStudentsTableDesign();
+        StudentTableDesign();
+        CourseTableDesign();
+        PanelBoxDesign();
         //populateTeacherTextBox();
     }
     Connection connection;
     PreparedStatement pst;
     ResultSet rs;
     
+    private void PanelBoxDesign(){
+        jPanel8.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel11.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel12.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel7.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +                  
+            "borderColor: #1366D9;" +      
+            "borderWidth: 2;");            
+    }
+    
+    private void CourseTableDesign(){
+        jPanel19.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         courseDataTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         courseDataTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane5.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < courseDataTable.getColumnCount(); i++) {
+        courseDataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
+    
+    private void StudentTableDesign(){
+         jPanel18.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         studentDataTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         studentDataTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane4.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < studentDataTable.getColumnCount(); i++) {
+        studentDataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
     
     
+    private void RecentlyAddedStudentsTableDesign(){
+        jPanel13.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+        recentlyAddedStudentsTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+        recentlyAddedStudentsTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < recentlyAddedStudentsTable.getColumnCount(); i++) {
+        recentlyAddedStudentsTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    
+    
+    }
+    
+    
+    private void TeacherTableDesign(){
+       
+        jPanel6.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+        teacherDataTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+        teacherDataTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+        jScrollPane2.setBorder(BorderFactory.createEmptyBorder());
+        
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < teacherDataTable.getColumnCount(); i++) {
+        teacherDataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+
+    }
     
     
     private void FetchRecentlyAddedStudents(){
@@ -239,7 +382,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(TeacherData data:teacher){
-            Object[] rowData={data.getId(), data.getFName(), data.getLName(), data.getUserName(), data.getEmai(), data.getEmai(), data.getPasswod(), data.getDate()};
+            Object[] rowData={data.getId(), data.getFName(), data.getLName(), data.getUserName(), data.getEmai(), data.getTel(), data.getPasswod(), data.getDate()};
             df.addRow(rowData);
         }
     }
@@ -424,8 +567,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         overview_btn.setBorder(null);
         overview_btn.setText("Overview");
         overview_btn.setBorderColor(new java.awt.Color(0, 0, 0));
@@ -561,11 +702,11 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(overview_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(6, 6, 6)
                 .addComponent(teacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(6, 6, 6)
                 .addComponent(student_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(course_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -577,7 +718,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addGap(51, 51, 51))))
         );
 
-        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 2, true));
+        jTabbedPane1.setEnabled(false);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel8.setBackground(new java.awt.Color(96, 162, 252));
         jPanel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
@@ -605,13 +748,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap())
-            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(totalStudent_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalStudent_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel11.setBackground(new java.awt.Color(96, 162, 252));
@@ -640,13 +781,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap())
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(totalTeachers_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalTeachers_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         jPanel12.setBackground(new java.awt.Color(96, 162, 252));
@@ -675,13 +814,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel25)
-                .addContainerGap())
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(totalCourses_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalCourses_txt)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -691,7 +828,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(141, 141, 141)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -707,8 +844,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-
-        jPanel13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 1, true));
 
         recentlyAddedStudentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -742,7 +877,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -931,7 +1066,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
                         .addComponent(password_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(509, Short.MAX_VALUE))
+                .addContainerGap(511, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -998,7 +1133,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -1204,7 +1339,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
                         .addComponent(spassword_txt)))
-                .addContainerGap(509, Short.MAX_VALUE))
+                .addContainerGap(511, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1275,7 +1410,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -1389,7 +1524,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(cteacherId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(teacherName_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
+                    .addComponent(teacherName_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1405,12 +1540,13 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addComponent(searchTeacher_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ccourseId_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(cname_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel30)
-                        .addComponent(teacherName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(teacherName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel26)
+                        .addComponent(cname_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
@@ -1446,7 +1582,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
@@ -1583,15 +1719,18 @@ public class AdminDashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -2089,6 +2228,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         cfees_txt.setText("");
         cmonths_cmb.setSelectedIndex(0);
         cteacherId_cmb.setSelectedIndex(0); 
+        teacherName_txt.setText("");
     }//GEN-LAST:event_creset_btnActionPerformed
 
     private void courseDataTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_courseDataTableMouseClicked
@@ -2096,12 +2236,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) courseDataTable.getModel(); 
 
         
-        ccourseId_txt.setText(model.getValueAt(selectedRow, 1).toString());
-        cname_txt.setText(model.getValueAt(selectedRow, 2).toString());
-        cmonths_cmb.setSelectedItem(model.getValueAt(selectedRow, 3).toString());
-        cfees_txt.setText(model.getValueAt(selectedRow, 4).toString());
-        cteacherId_cmb.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
-        teacherName_txt.setText(model.getValueAt(selectedRow, 6).toString());
+        ccourseId_txt.setText(model.getValueAt(selectedRow, 0).toString()); // Assuming courseId is the first column
+        cname_txt.setText(model.getValueAt(selectedRow, 1).toString());    // Assuming name is the second column
+        cmonths_cmb.setSelectedItem(model.getValueAt(selectedRow, 2).toString());
+        cfees_txt.setText(model.getValueAt(selectedRow, 3).toString());
+        cteacherId_cmb.setSelectedItem(model.getValueAt(selectedRow, 4).toString());
+        teacherName_txt.setText(model.getValueAt(selectedRow, 5).toString());
         
     }//GEN-LAST:event_courseDataTableMouseClicked
 

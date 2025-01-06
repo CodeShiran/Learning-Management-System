@@ -158,12 +158,9 @@ public class Button extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         //border
-        g2.setColor(borderColor);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-        g2.setColor(getBackground());
-        
-        //border set 2
-        g2.fillRoundRect(2, 2, getWidth()-4, getHeight()-4, radius, radius);
-        super.paintComponent(graphic);
+       g2.setColor(getBackground());
+       g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
+       super.paintComponent(graphic);
     }
 }

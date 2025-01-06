@@ -4,6 +4,8 @@
 
 package com.mycompany.learningmanagementsystem;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 /**
  *
  * @author User
@@ -11,7 +13,14 @@ package com.mycompany.learningmanagementsystem;
 public class LearningManagementSystem {
 
     public static void main(String[] args) {
-        //AdminLoginForm frame=new AdminLoginForm();
+        
+        try {
+            FlatLightLaf.setup();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        java.awt.EventQueue.invokeLater(() -> {
+            //AdminLoginForm frame=new AdminLoginForm();
         //frame.setVisible(true);
         //frame.setLocationRelativeTo(null);
         
@@ -35,12 +44,14 @@ public class LearningManagementSystem {
        frame6.setVisible(true);
        frame6.setLocationRelativeTo(null);
        
-         //TeacherDashboard frame7=new TeacherDashboard();
-         //frame7.setVisible(true);
-       // frame7.setLocationRelativeTo(null);
+        //// TeacherDashboard frame7=new TeacherDashboard();
+       //  frame7.setVisible(true);
+      //  frame7.setLocationRelativeTo(null);
          
-         //StudentDashboard frame8=new StudentDashboard();
-         //frame8.setVisible(true);
-        //frame8.setLocationRelativeTo(null);
+        // StudentDashboard frame8=new StudentDashboard();
+        // frame8.setVisible(true);
+       // frame8.setLocationRelativeTo(null);
+        });
+        
     }
 }
