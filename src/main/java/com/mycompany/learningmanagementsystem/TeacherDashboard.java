@@ -4,11 +4,20 @@
  */
 package com.mycompany.learningmanagementsystem;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author User
@@ -26,11 +35,119 @@ public class TeacherDashboard extends javax.swing.JFrame {
         FetchMarksData();
         DisplayTotalCount();
         FetchRecentlyUpdatedCourses();
+        CourseTableDesign();
+        PanelBoxDesign();
+        AssignedCoursesTableDesign();
+        MarksUploadTableDesign();
     }
     
     Connection connection;
     PreparedStatement pst;
     ResultSet rs;
+    
+    
+    private void PanelBoxDesign(){
+        jPanel7.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel11.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel12.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;");
+        jPanel8.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +                  
+            "borderColor: #1366D9;" +      
+            "borderWidth: 2;");            
+    }
+    
+    private void CourseTableDesign(){
+        jPanel13.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         TeacherDashboardTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         TeacherDashboardTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < TeacherDashboardTable.getColumnCount(); i++) {
+        TeacherDashboardTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
+    
+    private void AssignedCoursesTableDesign(){
+        jPanel5.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         assignedCoursesTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         assignedCoursesTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane2.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < assignedCoursesTable.getColumnCount(); i++) {
+        assignedCoursesTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
+    
+    private void MarksUploadTableDesign(){
+        jPanel14.putClientProperty(FlatClientProperties.STYLE, "" +
+            "arc: 20;" +
+            "background: $Table.background");
+
+    
+         studentMarksTable.getTableHeader().putClientProperty(FlatClientProperties.STYLE, "" +
+            "height: 30;" +
+            "separatorColor: $Table.gridColor;" +
+            "font: bold $Table.font");
+
+    
+         studentMarksTable.putClientProperty(FlatClientProperties.STYLE, "" +
+            "rowHeight: 30;" +
+            "showHorizontalLines: true;" +
+            "showVerticalLines: true;" +
+            "intercellSpacing: 0,1;" +
+            "selectionBackground: lighten(@Table.background,8%);" +
+            "selectionInactiveBackground: lighten(@Table.background,8%)");
+
+    
+         jScrollPane3.setBorder(BorderFactory.createEmptyBorder());
+         
+         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < studentMarksTable.getColumnCount(); i++) {
+        studentMarksTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);}
+    }
     
     public void FetchRecentlyUpdatedCourses(){
          try {
@@ -127,8 +244,17 @@ public class TeacherDashboard extends javax.swing.JFrame {
         
         try{
             connection=Database.connectiondb();
-            pst=connection.prepareStatement("SELECT * FROM marks");
-            rs=pst.executeQuery();
+           String query = "SELECT c.courseId, c.coursename, c.studentId, CONCAT(s.fName, ' ', s.lName) AS studentName, COALESCE(m.marks, NULL) AS marks, c.paymentstatus " +
+               "FROM coursereg c " +
+               "JOIN student s ON c.studentId = s.Id " +
+               "LEFT JOIN marks m ON c.courseId = m.courseId AND c.studentId = m.studentId " +
+               "WHERE c.paymentstatus = 'Paid'";
+
+
+
+
+           pst = connection.prepareStatement(query);
+           rs = pst.executeQuery();
             
             while(rs.next()){
                 String studentId=rs.getString("studentId");
@@ -279,10 +405,9 @@ public class TeacherDashboard extends javax.swing.JFrame {
         courseName_txt = new javax.swing.JTextField();
         studentSearch_btn = new com.mycompany.learningmanagementsystem.Button();
         courseSearch_btn = new com.mycompany.learningmanagementsystem.Button();
+        marksReport_btn = new com.mycompany.learningmanagementsystem.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -385,16 +510,16 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(overview_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(overview_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(overview_btn2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tsignout_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
 
-        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 2, true));
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel8.setBackground(new java.awt.Color(96, 162, 252));
         jPanel8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
@@ -502,7 +627,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -518,8 +643,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-
-        jPanel13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 102, 217), 1, true));
 
         TeacherDashboardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -547,7 +670,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -597,7 +720,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -671,6 +794,16 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 "Student Id", "Student Name", "Course Id", "Course Name", "Marks"
             }
         ));
+        studentMarksTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentMarksTableMouseClicked(evt);
+            }
+        });
+        studentMarksTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                studentMarksTableKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(studentMarksTable);
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -679,15 +812,15 @@ public class TeacherDashboard extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 857, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -759,6 +892,21 @@ public class TeacherDashboard extends javax.swing.JFrame {
             }
         });
 
+        marksReport_btn.setBorder(null);
+        marksReport_btn.setText("View Marks Report");
+        marksReport_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        marksReport_btn.setBorderPainted(false);
+        marksReport_btn.setColor(new java.awt.Color(255, 106, 106));
+        marksReport_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        marksReport_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        marksReport_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        marksReport_btn.setRadius(15);
+        marksReport_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                marksReport_btnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -768,23 +916,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(141, 141, 141)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -798,8 +929,26 @@ public class TeacherDashboard extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(studentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(studentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(115, 115, 115)
+                                .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(130, 130, 130)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(marksReport_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(385, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -808,7 +957,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -837,7 +986,9 @@ public class TeacherDashboard extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(marks_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(marksReport_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
@@ -994,6 +1145,49 @@ public class TeacherDashboard extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_courseSearch_btnActionPerformed
 
+    private void studentMarksTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentMarksTableKeyPressed
+          
+    }//GEN-LAST:event_studentMarksTableKeyPressed
+
+    private void studentMarksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentMarksTableMouseClicked
+        try {
+        int selectedRow = studentMarksTable.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) studentMarksTable.getModel();
+
+        
+        String studentId = model.getValueAt(selectedRow, 0).toString(); 
+        String studentName = model.getValueAt(selectedRow, 1).toString(); 
+        String courseId = model.getValueAt(selectedRow, 2).toString(); 
+        String courseName = model.getValueAt(selectedRow, 3).toString(); 
+        String marks = model.getValueAt(selectedRow, 4).toString(); 
+
+        studentId_cmb.setSelectedItem(studentId); 
+        studentName_txt.setText(studentName);   
+        courseId_cmb.setSelectedItem(courseId);
+        courseName_txt.setText(courseName);             
+        marks_txt.setText(marks);                 
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error retrieving data from table: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_studentMarksTableMouseClicked
+
+    private void marksReport_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marksReport_btnActionPerformed
+        try{
+            connection=Database.connectiondb();
+            JasperReport jr=JasperCompileManager.compileReport("D:\\nibm project\\LearningManagementSystem\\src\\main\\java\\com\\mycompany\\learningmanagementsystem\\Reports\\Marks.jrxml");
+            JasperPrint jp=JasperFillManager.fillReport(jr,null,connection);
+            JasperViewer viewer = new JasperViewer(jp, false);
+            viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            viewer.setVisible(true);
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_marksReport_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1066,6 +1260,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel label1;
+    private com.mycompany.learningmanagementsystem.Button marksReport_btn;
     private javax.swing.JTextField marks_txt;
     private com.mycompany.learningmanagementsystem.Button overview_btn;
     private com.mycompany.learningmanagementsystem.Button overview_btn1;

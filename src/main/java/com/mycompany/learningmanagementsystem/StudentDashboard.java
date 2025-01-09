@@ -271,7 +271,11 @@ public class StudentDashboard extends javax.swing.JFrame {
         
         try{
             connection=Database.connectiondb();
-            pst=connection.prepareStatement("SELECT * FROM marks");
+            pst=connection.prepareStatement("SELECT c.courseId, c.coursename, c.studentId, CONCAT(s.fName, ' ', s.lName) AS studentName, m.marks " +
+               "FROM coursereg c " +
+               "JOIN student s ON c.studentId = s.Id " +
+               "JOIN marks m ON c.courseId = m.courseId AND c.studentId = m.studentId " +
+               "WHERE c.paymentStatus = 'Paid'");
             rs=pst.executeQuery();
             
             while(rs.next()){
@@ -299,7 +303,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         df.setRowCount(0);
         
         for(RegisteredCourseData data:courseData){
-            Object[] rowData={data.getStudentId(), data.getCourseId()};
+            Object[] rowData={data.getStudentId(), data.getStudentName(), data.getCourseId(), data.getCourseName(), data.getPaymentStatus()};
             df.addRow(rowData);
         }
     }
@@ -309,14 +313,17 @@ public class StudentDashboard extends javax.swing.JFrame {
         
         try{
             connection=Database.connectiondb();
-            pst=connection.prepareStatement("SELECT * FROM coursereg");
+            pst = connection.prepareStatement("SELECT * FROM coursereg");
             rs=pst.executeQuery();
             
             while(rs.next()){
                 String studentId=rs.getString("studentId");
+                String studentName=rs.getString("studentname");
                 String courseId=rs.getString("courseId");
+                String courseName=rs.getString("coursename");
+                String paymentStatus=rs.getString("paymentstatus");
 
-                courseData.add(new RegisteredCourseData(studentId,courseId));
+                courseData.add(new RegisteredCourseData(studentId, studentName, courseId, courseName, paymentStatus));
             }
         }
         catch(Exception ex){
@@ -401,14 +408,23 @@ public class StudentDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        scourseId_cmb = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         registeredCourseDataTable = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         sstudentId_cmb = new javax.swing.JComboBox<>();
         supdate_btn = new com.mycompany.learningmanagementsystem.Button();
+        jLabel3 = new javax.swing.JLabel();
+        sstudentName_txt = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        scourseId_cmb = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        scourseName_txt = new javax.swing.JTextField();
+        studentSearch_btn1 = new com.mycompany.learningmanagementsystem.Button();
+        courseSearch_btn = new com.mycompany.learningmanagementsystem.Button();
+        jLabel13 = new javax.swing.JLabel();
+        paymentStatus_txt = new javax.swing.JLabel();
+        spaymentStatus_cmb = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -751,46 +767,39 @@ public class StudentDashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Course Selection");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Course Id");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scourseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(scourseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         registeredCourseDataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Course Id", "Student Id"
+                "Course Id", "Course Name", "Student Id", "Student Name", "Payment Status"
             }
         ));
+        registeredCourseDataTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registeredCourseDataTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(registeredCourseDataTable);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -806,15 +815,15 @@ public class StudentDashboard extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Student Id");
+        jLabel7.setText("Select Your Student Id");
 
         supdate_btn.setBorder(null);
-        supdate_btn.setText("UPDATE");
+        supdate_btn.setText("Select");
         supdate_btn.setBorderColor(new java.awt.Color(0, 0, 0));
         supdate_btn.setBorderPainted(false);
         supdate_btn.setColor(new java.awt.Color(16, 162, 252));
@@ -828,6 +837,51 @@ public class StudentDashboard extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Student Name");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Select Course Id");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("Course Name");
+
+        studentSearch_btn1.setBorder(null);
+        studentSearch_btn1.setText("Search");
+        studentSearch_btn1.setBorderColor(new java.awt.Color(0, 0, 0));
+        studentSearch_btn1.setBorderPainted(false);
+        studentSearch_btn1.setColor(new java.awt.Color(255, 106, 106));
+        studentSearch_btn1.setColorClick(new java.awt.Color(255, 31, 31));
+        studentSearch_btn1.setColorOver(new java.awt.Color(255, 31, 31));
+        studentSearch_btn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        studentSearch_btn1.setRadius(15);
+        studentSearch_btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentSearch_btn1ActionPerformed(evt);
+            }
+        });
+
+        courseSearch_btn.setBorder(null);
+        courseSearch_btn.setText("Search");
+        courseSearch_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        courseSearch_btn.setBorderPainted(false);
+        courseSearch_btn.setColor(new java.awt.Color(255, 106, 106));
+        courseSearch_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        courseSearch_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        courseSearch_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        courseSearch_btn.setRadius(15);
+        courseSearch_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseSearch_btnActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel13.setText("Payment Status");
+
+        spaymentStatus_cmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pending", "Paid" }));
+        spaymentStatus_cmb.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -836,34 +890,72 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sstudentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(supdate_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spaymentStatus_cmb, 0, 84, Short.MAX_VALUE)
+                            .addComponent(sstudentId_cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(scourseId_cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(paymentStatus_txt)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scourseName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sstudentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(studentSearch_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(supdate_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(96, 96, 96))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(scourseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(scourseName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(sstudentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(supdate_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(supdate_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(sstudentName_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(studentSearch_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(spaymentStatus_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(paymentStatus_txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -952,7 +1044,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                     .addComponent(studentReset_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(studentSearchId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -995,30 +1087,59 @@ public class StudentDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void supdate_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supdate_btnActionPerformed
-         try {
-            connection = Database.connectiondb();
-            pst = connection.prepareStatement("INSERT INTO coursereg (courseId, studentId) VALUES (?, ?)");
+          try {
+    connection = Database.connectiondb();
 
-            pst.setString(1, scourseId_cmb.getSelectedItem().toString());
-            pst.setString(2, sstudentId_cmb.getSelectedItem().toString());
+    // SQL query to check for duplicate entries
+    pst = connection.prepareStatement("SELECT COUNT(*) FROM coursereg WHERE courseId = ? AND studentId = ?");
+    pst.setString(1, scourseId_cmb.getSelectedItem().toString());
+    pst.setString(2, sstudentId_cmb.getSelectedItem().toString());
+    rs = pst.executeQuery();
 
-            int rowsInserted = pst.executeUpdate();
-            if (rowsInserted > 0) {
-                JOptionPane.showMessageDialog(null, "Successfully Registered!");
-                
+    if (rs.next() && rs.getInt(1) > 0) {
+        // If a duplicate entry exists, show a message
+        JOptionPane.showMessageDialog(null, "This registration already exists!", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+    } else {
+        // SQL query to insert the new registration with additional fields
+        pst = connection.prepareStatement("INSERT INTO coursereg (courseId, coursename, studentId, studentname, paymentstatus) VALUES (?, ?, ?, ?, ?)");
 
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error adding teacher: " + ex.getMessage());
-        } finally {
-            try {
-                if (pst != null) pst.close();
-                if (connection != null) connection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        // Retrieve selected course and student details
+        String selectedCourseId = scourseId_cmb.getSelectedItem().toString();
+        String selectedStudentId = sstudentId_cmb.getSelectedItem().toString();
+        String courseName = scourseName_txt.getText(); // Assuming scourseName_txt contains the course name
+        String studentName = sstudentName_txt.getText(); // Assuming sstudentName_txt contains the student name
+        String paymentStatus = "Pending";
+
+        // Set parameters for the query
+        pst.setString(1, selectedCourseId);
+        pst.setString(2, courseName);
+        pst.setString(3, selectedStudentId);
+        pst.setString(4, studentName);
+        pst.setString(5, paymentStatus);
+
+        // Execute the query
+        int rowsInserted = pst.executeUpdate();
+        if (rowsInserted > 0) {
+            JOptionPane.showMessageDialog(null, "Successfully Registered!");
+            FetchRegisteredCourseData();
+
+            // Set the payment status label to "Pending"
+            paymentStatus_txt.setText(paymentStatus);
         }
+    }
+} catch (Exception ex) {
+    ex.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Error during registration: " + ex.getMessage());
+} finally {
+    try {
+        if (rs != null) rs.close();
+        if (pst != null) pst.close();
+        if (connection != null) connection.close();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}
+
     }//GEN-LAST:event_supdate_btnActionPerformed
 
     private void studentSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearch_btnActionPerformed
@@ -1034,14 +1155,16 @@ public class StudentDashboard extends javax.swing.JFrame {
     
     try {
         connection = Database.connectiondb();
-        pst = connection.prepareStatement("SELECT courseId, marks FROM marks WHERE studentId = ?");
+        pst = connection.prepareStatement("SELECT * FROM marks WHERE studentId = ?");
         pst.setString(1, studentId);
         rs = pst.executeQuery();
         
         while (rs.next()) {
             String courseId = rs.getString("courseId");
+            String courseName=rs.getString("courseName");
+            String studentName=rs.getString("studentname");
             int marks = rs.getInt("marks");
-            tableModel.addRow(new Object[]{studentId, courseId, marks}); 
+            tableModel.addRow(new Object[]{studentId, studentName, courseId, courseName, marks}); 
         }
         
         if (tableModel.getRowCount() == 0) {
@@ -1091,6 +1214,109 @@ public class StudentDashboard extends javax.swing.JFrame {
         frame.setLocationRelativeTo(null);
     }//GEN-LAST:event_ssignout_btnActionPerformed
 
+    private void studentSearch_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearch_btn1ActionPerformed
+        try {
+
+            String selectedStudentId = sstudentId_cmb.getSelectedItem().toString();
+
+            connection = Database.connectiondb();
+
+            pst = connection.prepareStatement("SELECT fname, lname FROM student WHERE id = ?");
+            pst.setString(1, selectedStudentId);
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                String firstName = rs.getString("fName");
+                String lastName = rs.getString("lName");
+
+                String fullName = firstName + " " + lastName;
+
+                sstudentName_txt.setText(fullName);
+            } else {
+
+                sstudentName_txt.setText("");
+                JOptionPane.showMessageDialog(null, "No student found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching student data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_studentSearch_btn1ActionPerformed
+
+    private void courseSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseSearch_btnActionPerformed
+        try {
+
+            String selectedCourseId = scourseId_cmb.getSelectedItem().toString();
+
+            connection = Database.connectiondb();
+
+            pst = connection.prepareStatement("SELECT name FROM course WHERE id = ?");
+            pst.setString(1, selectedCourseId);
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                String courseName = rs.getString("name");
+
+                scourseName_txt.setText(courseName);
+            } else {
+
+                scourseName_txt.setText("");
+                JOptionPane.showMessageDialog(null, "No course found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching course data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_courseSearch_btnActionPerformed
+
+    private void registeredCourseDataTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registeredCourseDataTableMouseClicked
+       try {
+        
+        int selectedRow = registeredCourseDataTable.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) registeredCourseDataTable.getModel();
+
+        
+        String courseId = model.getValueAt(selectedRow, 0).toString().trim(); 
+        String srcourseName = model.getValueAt(selectedRow, 1).toString(); 
+        String srstudentId = model.getValueAt(selectedRow, 2).toString().trim(); 
+        String studentName = model.getValueAt(selectedRow, 3).toString().trim(); 
+        String paymentStatus=model.getValueAt(selectedRow, 4).toString();
+         
+
+        
+        scourseId_cmb.setSelectedItem(courseId);
+        scourseName_txt.setText(srcourseName);
+        sstudentId_cmb.setSelectedItem(srstudentId);
+        sstudentName_txt.setText(studentName);
+        spaymentStatus_cmb.setSelectedItem(paymentStatus); 
+        
+        
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error retrieving data from table: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_registeredCourseDataTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1127,16 +1353,20 @@ public class StudentDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.mycompany.learningmanagementsystem.Button courseSearch_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1158,15 +1388,20 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel label5;
     private javax.swing.JLabel label8;
     private com.mycompany.learningmanagementsystem.Button overview_btn;
+    private javax.swing.JLabel paymentStatus_txt;
     private javax.swing.JTable recentlyUpdatedCoursesTable;
     private javax.swing.JTable registeredCourseDataTable;
     private javax.swing.JTable sStudentMarksViewTable;
     private javax.swing.JComboBox<String> scourseId_cmb;
+    private javax.swing.JTextField scourseName_txt;
+    private javax.swing.JComboBox<String> spaymentStatus_cmb;
     private com.mycompany.learningmanagementsystem.Button ssignout_btn;
     private javax.swing.JComboBox<String> sstudentId_cmb;
+    private javax.swing.JTextField sstudentName_txt;
     private com.mycompany.learningmanagementsystem.Button studentReset_btn;
     private javax.swing.JComboBox<String> studentSearchId_cmb;
     private com.mycompany.learningmanagementsystem.Button studentSearch_btn;
+    private com.mycompany.learningmanagementsystem.Button studentSearch_btn1;
     private com.mycompany.learningmanagementsystem.Button student_btn;
     private com.mycompany.learningmanagementsystem.Button supdate_btn;
     private com.mycompany.learningmanagementsystem.Button teacher_btn;
