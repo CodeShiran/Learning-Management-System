@@ -46,7 +46,7 @@ This **Learning Management System (LMS)** is a robust application developed for 
 ### Clone the Repository
 To get started, clone the repository:
 
-git clone https://github.com/theekify/ead.git
+git clone https://github.com/CodeShiran/Learning-Management-System.git
 
 
 ### Set Up the Database
