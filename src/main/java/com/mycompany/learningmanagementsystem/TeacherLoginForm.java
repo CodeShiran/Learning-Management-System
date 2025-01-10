@@ -267,7 +267,7 @@ public class TeacherLoginForm extends javax.swing.JFrame {
 
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "Login Successful");
-                    StudentDashboard frame2 = new StudentDashboard();
+                    TeacherDashboard frame2 = new TeacherDashboard();
                     frame2.setVisible(true);
                     frame2.setLocationRelativeTo(null);
                     this.hide();

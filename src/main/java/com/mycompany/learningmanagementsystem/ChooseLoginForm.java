@@ -197,7 +197,7 @@ public class ChooseLoginForm extends javax.swing.JFrame {
 
     private void adminLogin_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminLogin_btnActionPerformed
         AdminLoginForm frame1=new AdminLoginForm();
-        JOptionPane.showMessageDialog(this, "Logged As An Admin");
+        JOptionPane.showMessageDialog(this, "Welcome To Admin Form");
         frame1.setVisible(true);
         frame1.setLocationRelativeTo(null);
         this.hide();
@@ -205,7 +205,7 @@ public class ChooseLoginForm extends javax.swing.JFrame {
 
     private void teacherLogin_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherLogin_btnActionPerformed
         TeacherLoginForm frame2=new TeacherLoginForm();
-        JOptionPane.showMessageDialog(this, "Logged As A Teacher");
+        JOptionPane.showMessageDialog(this, "Welcome To Teacher Form");
         frame2.setVisible(true);
         frame2.setLocationRelativeTo(null);
         this.hide();
@@ -213,7 +213,7 @@ public class ChooseLoginForm extends javax.swing.JFrame {
 
     private void studentLogin_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentLogin_btnActionPerformed
         StudentLoginForm frame3=new StudentLoginForm();
-        JOptionPane.showMessageDialog(this, "Logged As A Student");
+        JOptionPane.showMessageDialog(this, "Welcome To Student Form");
         frame3.setVisible(true);
         frame3.setLocationRelativeTo(null);
         this.hide();
