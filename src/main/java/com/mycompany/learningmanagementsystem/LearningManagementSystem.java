@@ -40,17 +40,17 @@ public class LearningManagementSystem {
         //frame5.setVisible(true);
         //frame5.setLocationRelativeTo(null);
        
-      // AdminDashboard frame6=new AdminDashboard();
-      // frame6.setVisible(true);
-     //frame6.setLocationRelativeTo(null);
+       AdminDashboard frame6=new AdminDashboard();
+      frame6.setVisible(true);
+     frame6.setLocationRelativeTo(null);
        
-         TeacherDashboard frame7=new TeacherDashboard();
-        frame7.setVisible(true);
-       frame7.setLocationRelativeTo(null);
+        // TeacherDashboard frame7=new TeacherDashboard();
+      //frame7.setVisible(true);
+      //frame7.setLocationRelativeTo(null);
          
-        //StudentDashboard frame8=new StudentDashboard();
-      //frame8.setVisible(true);
-      //frame8.setLocationRelativeTo(null);
+      //  StudentDashboard frame8=new StudentDashboard();
+     // frame8.setVisible(true);
+     // frame8.setLocationRelativeTo(null);
         });
         
     }

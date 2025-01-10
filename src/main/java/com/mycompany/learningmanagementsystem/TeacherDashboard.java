@@ -325,6 +325,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
         while (rs.next()) {
             String courseId = rs.getString("id");
             courseId_cmb.addItem(courseId); 
+            courseId_cmb1.addItem(courseId);
             
         }
     } catch (Exception ex) {
@@ -432,9 +433,11 @@ public class TeacherDashboard extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         studentName_txt = new javax.swing.JTextField();
         courseName_txt = new javax.swing.JTextField();
-        studentSearch_btn = new com.mycompany.learningmanagementsystem.Button();
-        courseSearch_btn = new com.mycompany.learningmanagementsystem.Button();
         marksReport_btn = new com.mycompany.learningmanagementsystem.Button();
+        jLabel14 = new javax.swing.JLabel();
+        courseId_cmb1 = new javax.swing.JComboBox<>();
+        courseSearch_btn1 = new com.mycompany.learningmanagementsystem.Button();
+        marksReset_btn = new com.mycompany.learningmanagementsystem.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -588,6 +591,8 @@ public class TeacherDashboard extends javax.swing.JFrame {
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38))))
         );
+
+        jTabbedPane1.setEnabled(false);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -766,7 +771,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab1", jPanel2);
+        jTabbedPane1.addTab("", jPanel2);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Assigned Courses");
@@ -848,7 +853,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        jTabbedPane1.addTab("", jPanel3);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Marks Upload");
@@ -899,6 +904,8 @@ public class TeacherDashboard extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Student Id");
 
+        studentId_cmb.setEnabled(false);
+
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Course Name");
 
@@ -910,6 +917,8 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 marks_txtActionPerformed(evt);
             }
         });
+
+        courseId_cmb.setEnabled(false);
 
         add_btn.setBorder(null);
         add_btn.setText("UPDATE");
@@ -932,48 +941,55 @@ public class TeacherDashboard extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Course Id");
 
-        studentSearch_btn.setBorder(null);
-        studentSearch_btn.setText("Search");
-        studentSearch_btn.setBorderColor(new java.awt.Color(0, 0, 0));
-        studentSearch_btn.setBorderPainted(false);
-        studentSearch_btn.setColor(new java.awt.Color(255, 106, 106));
-        studentSearch_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        studentSearch_btn.setColorOver(new java.awt.Color(255, 31, 31));
-        studentSearch_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        studentSearch_btn.setRadius(15);
-        studentSearch_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                studentSearch_btnActionPerformed(evt);
-            }
-        });
+        studentName_txt.setEnabled(false);
 
-        courseSearch_btn.setBorder(null);
-        courseSearch_btn.setText("Search");
-        courseSearch_btn.setBorderColor(new java.awt.Color(0, 0, 0));
-        courseSearch_btn.setBorderPainted(false);
-        courseSearch_btn.setColor(new java.awt.Color(255, 106, 106));
-        courseSearch_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        courseSearch_btn.setColorOver(new java.awt.Color(255, 31, 31));
-        courseSearch_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        courseSearch_btn.setRadius(15);
-        courseSearch_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                courseSearch_btnActionPerformed(evt);
-            }
-        });
+        courseName_txt.setEnabled(false);
 
         marksReport_btn.setBorder(null);
         marksReport_btn.setText("View Marks Report");
         marksReport_btn.setBorderColor(new java.awt.Color(0, 0, 0));
         marksReport_btn.setBorderPainted(false);
-        marksReport_btn.setColor(new java.awt.Color(255, 106, 106));
-        marksReport_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        marksReport_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        marksReport_btn.setColor(new java.awt.Color(126, 255, 131));
+        marksReport_btn.setColorClick(new java.awt.Color(47, 255, 55));
+        marksReport_btn.setColorOver(new java.awt.Color(102, 255, 108));
         marksReport_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         marksReport_btn.setRadius(15);
         marksReport_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 marksReport_btnActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setText("Select Your Course Id");
+
+        courseSearch_btn1.setBorder(null);
+        courseSearch_btn1.setText("Search");
+        courseSearch_btn1.setBorderColor(new java.awt.Color(0, 0, 0));
+        courseSearch_btn1.setBorderPainted(false);
+        courseSearch_btn1.setColor(new java.awt.Color(255, 106, 106));
+        courseSearch_btn1.setColorClick(new java.awt.Color(255, 31, 31));
+        courseSearch_btn1.setColorOver(new java.awt.Color(255, 31, 31));
+        courseSearch_btn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        courseSearch_btn1.setRadius(15);
+        courseSearch_btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseSearch_btn1ActionPerformed(evt);
+            }
+        });
+
+        marksReset_btn.setBorder(null);
+        marksReset_btn.setText("RESET Table");
+        marksReset_btn.setBorderColor(new java.awt.Color(0, 0, 0));
+        marksReset_btn.setBorderPainted(false);
+        marksReset_btn.setColor(new java.awt.Color(255, 106, 106));
+        marksReset_btn.setColorClick(new java.awt.Color(255, 31, 31));
+        marksReset_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        marksReset_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        marksReset_btn.setRadius(15);
+        marksReset_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                marksReset_btnActionPerformed(evt);
             }
         });
 
@@ -986,7 +1002,16 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addComponent(courseId_cmb1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(courseSearch_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(marksReset_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -1003,10 +1028,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1014,17 +1035,23 @@ public class TeacherDashboard extends javax.swing.JFrame {
                                 .addGap(115, 115, 115)
                                 .addComponent(add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(130, 130, 130)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(marksReport_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(385, Short.MAX_VALUE))
+                        .addComponent(marksReport_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel14)
+                    .addComponent(courseId_cmb1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseSearch_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(marksReset_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1032,7 +1059,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(studentId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(studentSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1045,8 +1071,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(courseSearch_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(courseId_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -1062,7 +1087,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
-        jTabbedPane1.addTab("tab3", jPanel4);
+        jTabbedPane1.addTab("", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1120,10 +1145,15 @@ public class TeacherDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_add_btnActionPerformed
 
     private void tsignout_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tsignout_btnActionPerformed
-        this.hide();
-        TeacherLoginForm frame=new TeacherLoginForm();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out?", "Confirm Sign Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            this.dispose(); 
+            TeacherLoginForm frame = new TeacherLoginForm();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+}
+
     }//GEN-LAST:event_tsignout_btnActionPerformed
 
     private void overview_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overview_btnActionPerformed
@@ -1137,84 +1167,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private void overview_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overview_btn2ActionPerformed
          jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_overview_btn2ActionPerformed
-
-    private void studentSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearch_btnActionPerformed
-        try {
-        
-        String selectedStudentId = studentId_cmb.getSelectedItem().toString();
-
-        connection = Database.connectiondb();
-        
-        pst = connection.prepareStatement("SELECT fname, lname FROM student WHERE id = ?");
-        pst.setString(1, selectedStudentId);
-
-        rs = pst.executeQuery();
-
-        if (rs.next()) {
-            
-            String firstName = rs.getString("fName");
-            String lastName = rs.getString("lName");
-
-            
-            String fullName = firstName + " " + lastName;
-
-            
-            studentName_txt.setText(fullName);
-        } else {
-            
-            studentName_txt.setText("");
-            JOptionPane.showMessageDialog(null, "No student found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error fetching student data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (connection != null) connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    }//GEN-LAST:event_studentSearch_btnActionPerformed
-
-    private void courseSearch_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseSearch_btnActionPerformed
-         try {
-        
-        String selectedCourseId = courseId_cmb.getSelectedItem().toString();
-
-        connection = Database.connectiondb();
-        
-        pst = connection.prepareStatement("SELECT name FROM course WHERE id = ?");
-        pst.setString(1, selectedCourseId);
-
-        rs = pst.executeQuery();
-
-        if (rs.next()) {
-            
-            String courseName = rs.getString("name");
-
-           
-            courseName_txt.setText(courseName);
-        } else {
-            
-            courseName_txt.setText("");
-            JOptionPane.showMessageDialog(null, "No course found with the selected ID.", "No Data", JOptionPane.WARNING_MESSAGE);
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error fetching course data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (pst != null) pst.close();
-            if (connection != null) connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    }//GEN-LAST:event_courseSearch_btnActionPerformed
 
     private void studentMarksTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentMarksTableKeyPressed
           
@@ -1259,6 +1211,72 @@ public class TeacherDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_marksReport_btnActionPerformed
 
+    private void courseSearch_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseSearch_btn1ActionPerformed
+         String courseId = courseId_cmb1.getSelectedItem().toString();
+    
+    // Check if the course ID is empty
+    if (courseId.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please select a course ID.");
+        return;
+    }
+    
+    // Prepare the table model and clear existing data
+    DefaultTableModel tableModel = (DefaultTableModel) studentMarksTable.getModel(); 
+    tableModel.setRowCount(0); 
+    
+    // Fetch data from the database
+    try {
+        // Establish database connection
+        connection = Database.connectiondb();
+        
+        // Prepare SQL query
+        pst = connection.prepareStatement("SELECT studentId, studentname, courseId, courseName, marks FROM marks WHERE courseId = ?");
+        pst.setString(1, courseId);
+        
+        // Execute query
+        rs = pst.executeQuery();
+        
+        // Populate the table with data
+        while (rs.next()) {
+            String studentId = rs.getString("studentId");
+            String studentName = rs.getString("studentname");
+            String fetchedCourseId = rs.getString("courseId");
+            String courseName = rs.getString("courseName");
+            int marks = rs.getInt("marks");
+            
+            // Add row to the table
+            tableModel.addRow(new Object[]{studentId, studentName, fetchedCourseId, courseName, marks});
+        }
+        
+        // Check if no records were found
+        if (tableModel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No records found for the selected course ID.", "No Data", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error retrieving data: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        // Clean up resources
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (connection != null) connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    }//GEN-LAST:event_courseSearch_btn1ActionPerformed
+
+    private void marksReset_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marksReset_btnActionPerformed
+        try {
+            FetchMarksData();
+            JOptionPane.showMessageDialog(null, "Table reset to default state.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error resetting table: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_marksReset_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1299,13 +1317,15 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private com.mycompany.learningmanagementsystem.Button add_btn;
     private javax.swing.JTable assignedCoursesTable;
     private javax.swing.JComboBox<String> courseId_cmb;
+    private javax.swing.JComboBox<String> courseId_cmb1;
     private javax.swing.JTextField courseName_txt;
-    private com.mycompany.learningmanagementsystem.Button courseSearch_btn;
+    private com.mycompany.learningmanagementsystem.Button courseSearch_btn1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -1335,6 +1355,7 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel label5;
     private javax.swing.JLabel label8;
     private com.mycompany.learningmanagementsystem.Button marksReport_btn;
+    private com.mycompany.learningmanagementsystem.Button marksReset_btn;
     private javax.swing.JTextField marks_txt;
     private com.mycompany.learningmanagementsystem.Button overview_btn;
     private com.mycompany.learningmanagementsystem.Button overview_btn1;
@@ -1342,7 +1363,6 @@ public class TeacherDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> studentId_cmb;
     private javax.swing.JTable studentMarksTable;
     private javax.swing.JTextField studentName_txt;
-    private com.mycompany.learningmanagementsystem.Button studentSearch_btn;
     private javax.swing.JLabel totalCourses_txt;
     private javax.swing.JLabel totalStudent_txt;
     private javax.swing.JLabel totalTeachers_txt;

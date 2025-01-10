@@ -47,7 +47,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet rs;
     
-    
+    //designs for panels
     private void PanelBoxDesign(){
         jPanel1.putClientProperty(FlatClientProperties.STYLE, "" +
             "arc: 20;");
@@ -63,6 +63,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             "borderWidth: 2;");            
     }
     
+    //exam marks table design
     private void ExamMarksTableDesign(){
         jPanel9.putClientProperty(FlatClientProperties.STYLE, "" +
             "arc: 20;" +
@@ -592,6 +593,8 @@ public class StudentDashboard extends javax.swing.JFrame {
                         .addGap(32, 32, 32))))
         );
 
+        jTabbedPane1.setEnabled(false);
+
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel8.setBackground(new java.awt.Color(96, 162, 252));
@@ -777,7 +780,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab1", jPanel2);
+        jTabbedPane1.addTab("", jPanel2);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Course Selection");
@@ -975,7 +978,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        jTabbedPane1.addTab("", jPanel3);
 
         sStudentMarksViewTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1080,7 +1083,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab3", jPanel4);
+        jTabbedPane1.addTab("", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1224,10 +1227,17 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_student_btnActionPerformed
 
     private void ssignout_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ssignout_btnActionPerformed
-        this.hide();
-        StudentLoginForm frame=new StudentLoginForm();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+
+        int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out?", "Confirm Sign Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        
+        if (response == JOptionPane.YES_OPTION){
+            this.dispose();
+            StudentLoginForm frame=new StudentLoginForm();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        }
+        
+        
     }//GEN-LAST:event_ssignout_btnActionPerformed
 
     private void studentSearch_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearch_btn1ActionPerformed

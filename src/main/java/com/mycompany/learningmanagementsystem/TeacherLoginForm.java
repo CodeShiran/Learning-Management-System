@@ -66,6 +66,7 @@ public class TeacherLoginForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         login_btn = new com.mycompany.learningmanagementsystem.Button();
         back_btn2 = new com.mycompany.learningmanagementsystem.Button();
+        showpassword_txt = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,6 +165,13 @@ public class TeacherLoginForm extends javax.swing.JFrame {
             }
         });
 
+        showpassword_txt.setText("Show Password");
+        showpassword_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showpassword_txtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -182,7 +190,10 @@ public class TeacherLoginForm extends javax.swing.JFrame {
                     .addComponent(password_txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rePassword_txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(login_btn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(login_btn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showpassword_txt)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -204,9 +215,11 @@ public class TeacherLoginForm extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rePassword_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(login_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(showpassword_txt)
+                .addGap(18, 18, 18)
+                .addComponent(login_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(back_btn2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
         );
@@ -288,6 +301,16 @@ public class TeacherLoginForm extends javax.swing.JFrame {
         frame.setLocationRelativeTo(null);
     }//GEN-LAST:event_back_btn2ActionPerformed
 
+    private void showpassword_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showpassword_txtActionPerformed
+        if (showpassword_txt.isSelected()) {
+            password_txt.setEchoChar((char) 0);
+            rePassword_txt.setEchoChar((char)0);
+        } else {
+            password_txt.setEchoChar('*');
+            rePassword_txt.setEchoChar('*');
+        }
+    }//GEN-LAST:event_showpassword_txtActionPerformed
+
     /**
      * @param args the command line arguments
      */public static void main(String args[]) {
@@ -323,7 +346,6 @@ public class TeacherLoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.learningmanagementsystem.Button back_btn;
     private com.mycompany.learningmanagementsystem.Button back_btn2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -339,5 +361,6 @@ public class TeacherLoginForm extends javax.swing.JFrame {
     private javax.swing.JTextField name_txt;
     private javax.swing.JPasswordField password_txt;
     private javax.swing.JPasswordField rePassword_txt;
+    private javax.swing.JCheckBox showpassword_txt;
     // End of variables declaration//GEN-END:variables
 }

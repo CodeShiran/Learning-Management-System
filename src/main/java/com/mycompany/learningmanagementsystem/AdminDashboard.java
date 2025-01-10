@@ -888,6 +888,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addGap(36, 36, 36))))
         );
 
+        jTabbedPane1.setEnabled(false);
+
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel8.setBackground(new java.awt.Color(96, 162, 252));
@@ -1073,7 +1075,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab1", jPanel2);
+        jTabbedPane1.addTab("", jPanel2);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1176,9 +1178,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         teacherReport_btn.setText("Report");
         teacherReport_btn.setBorderColor(new java.awt.Color(0, 0, 0));
         teacherReport_btn.setBorderPainted(false);
-        teacherReport_btn.setColor(new java.awt.Color(255, 106, 106));
-        teacherReport_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        teacherReport_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        teacherReport_btn.setColor(new java.awt.Color(126, 255, 131));
+        teacherReport_btn.setColorClick(new java.awt.Color(47, 255, 55));
+        teacherReport_btn.setColorOver(new java.awt.Color(102, 255, 108));
         teacherReport_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         teacherReport_btn.setRadius(15);
         teacherReport_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -1339,7 +1341,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        jTabbedPane1.addTab("", jPanel3);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Add Student");
@@ -1450,9 +1452,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         studentReport_btn.setText("Report");
         studentReport_btn.setBorderColor(new java.awt.Color(0, 0, 0));
         studentReport_btn.setBorderPainted(false);
-        studentReport_btn.setColor(new java.awt.Color(255, 106, 106));
-        studentReport_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        studentReport_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        studentReport_btn.setColor(new java.awt.Color(126, 255, 131));
+        studentReport_btn.setColorClick(new java.awt.Color(47, 255, 55));
+        studentReport_btn.setColorOver(new java.awt.Color(102, 255, 108));
         studentReport_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         studentReport_btn.setRadius(15);
         studentReport_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -1618,7 +1620,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab3", jPanel4);
+        jTabbedPane1.addTab("", jPanel4);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Add Course");
@@ -1831,9 +1833,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         courseReport_btn.setText("Report");
         courseReport_btn.setBorderColor(new java.awt.Color(0, 0, 0));
         courseReport_btn.setBorderPainted(false);
-        courseReport_btn.setColor(new java.awt.Color(255, 106, 106));
-        courseReport_btn.setColorClick(new java.awt.Color(255, 31, 31));
-        courseReport_btn.setColorOver(new java.awt.Color(255, 31, 31));
+        courseReport_btn.setColor(new java.awt.Color(126, 255, 131));
+        courseReport_btn.setColorClick(new java.awt.Color(47, 255, 55));
+        courseReport_btn.setColorOver(new java.awt.Color(102, 255, 108));
         courseReport_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         courseReport_btn.setRadius(15);
         courseReport_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -1885,7 +1887,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab4", jPanel14);
+        jTabbedPane1.addTab("", jPanel14);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Assign Course");
@@ -2056,7 +2058,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(12, 12, 12))
         );
 
-        jTabbedPane1.addTab("tab5", jPanel16);
+        jTabbedPane1.addTab("", jPanel16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -2592,10 +2594,14 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_courseDataTableMouseClicked
 
     private void ssignout_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ssignout_btnActionPerformed
-        this.hide();
-        AdminLoginForm frame=new AdminLoginForm();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out?", "Confirm Sign Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION){
+            this.dispose();
+            AdminLoginForm frame=new AdminLoginForm();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        }  
     }//GEN-LAST:event_ssignout_btnActionPerformed
 
     private void teacherReport_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherReport_btnActionPerformed
